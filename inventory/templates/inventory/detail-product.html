@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1>{{ product.name }}</h1>
+        <h5>Description : {{ product.description }}</h5>
+        <h5>Price : {{ product.price }}</h5>
+        <h5>Stock left : {{ product.qty_in_stock }}</h5>
+        <h5>Type : {{ product.type }}</h5>
+    </div>
+{% endblock %}

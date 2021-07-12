@@ -1,0 +1,57 @@
+{% extends 'blog/base.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>{% trans 'شماره سفارش' %}</th>
+                <th>{% trans 'تاریخ سفارش' %}</th>
+                <th>وضعیت</th>
+                <th>کالاها</th>
+                <th> total qty </th>
+                <th> total price </th>
+            </tr>
+            </thead>
+            {% for order in object_list %}
+                <tr>
+                    <td>{{ order.pk }}</td>
+                    <td>{{ order.created_on.date }} {{ order.created_on.time }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>
+                        {% for item in order.orderitem_set.all %}
+                            <p style="direction: rtl;">
+                                {{ forloop.counter }}- {{ item.product }} ❎ {{ item.qty }}
+                            </p>
+                        {% endfor %}
+                    </td>
+                    <td> {{ order.get_total_qty }}</td>
+                    <td> {{ order.get_total_price }}</td>
+
+                    <td>
+                        <a href="{% url 'store:print-order' order.pk %}" class="btn btn-primary">
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="text-center">
+            <span class="step-links align-items-center">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+
+                <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+                </span>
+        </div>
+    </div>
+{% endblock %}

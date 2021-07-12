@@ -1,0 +1,68 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ردیف</th>
+            <th>کالا</th>
+            <th>تعداد</th>
+            <th>price</th>
+            <th>حذف</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ object.product }}</td>
+                <td>
+                    <a class="deduct-btn btn btn-sm rounded btn-outline-danger btn-light mr-2" data-product-id="{{ object.product.pk }}">➖</a>
+                    <span class="qty">{{ object.qty }}</span>
+                    <a class="plus-btn btn btn-sm rounded btn-outline-success btn-light ml-2">➕</a>
+                </td>
+                <th>{{ object.price }}</th>
+                <td><a href="{% url 'store:delete-row' object.product.pk %}" class="btn btn-outline-danger btn-sm">❌</a> </td>
+            </tr>
+        {% empty %}
+            <tr>
+            <td colspan="5" class="text-center">
+                is empty!!!
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'store:finalize' %}" class="btn btn-primary float-right">
+        🧺
+        ثبت سفارش
+    </a>
+    </div>
+{% endblock %}
+{% block page_scripts %}
+    <script>
+        $(document).ready(function () {
+            $('a.deduct-btn').click(function (event) {
+                // Get the product id from the element that was clicked using
+                // dataset attrib.
+                const productId = event.currentTarget.dataset.productId;
+                // Call the backends
+                $.ajax({
+                    url: "{% url 'store:deduct-from-cart' %}",
+                    data: {
+                        product_id: productId
+                    },
+                    method: 'post',
+                    success: function (response) {
+                         let qtySpan = $(event.currentTarget).next()[0];
+                         qtySpan.innerHTML = response.qty;
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        alert('حذف با خطا مواجه شد.')
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

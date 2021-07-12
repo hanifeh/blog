@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'vazir';
+    font-style: normal;
+    src: url("../font/vazir/vazir-font-v29.1.0/Vazir-Regular.woff") format('woff');
+    src: url("../font/vazir/vazir-font-v29.1.0/Vazir-Regular.woff2") format('woff2');
+}
+
+.form-group {
+    font-family: Vazir, serif;
+}
