@@ -85,8 +85,3 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-    #     if self.request.user.is_anonymous:
-    #         raise NotAuthenticated('You need to be logged on.')
-    #     return qs

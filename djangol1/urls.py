@@ -27,6 +27,8 @@ from users import views as user_view
 router = DefaultRouter()
 router.register('user', user_view.UserViewSet)
 router.register('orders', store_view.OrderViewSet)
+router.register('store/order-items', store_view.OrderItemViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
